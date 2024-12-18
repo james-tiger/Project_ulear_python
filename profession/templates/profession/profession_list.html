@@ -15,6 +15,7 @@
                     <div>
                         <p><strong>Average Salary:</strong> {{ profession.average_salary }} USD</p>
                         <p><strong>Demand Index:</strong> {{ profession.demand_index }}</p>
+                        <a href="{% url 'dead' profession.id %}">Deed to Deed</a>
                     </div>
                 </div>
             {% endfor %}

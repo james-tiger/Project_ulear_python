@@ -6,5 +6,8 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     #path('', views.statistics, name='statistics'),
     path('statistics/', views.statistics, name='statistics'),
+    path('dead/<int:profession_id>/', views.deed_to_deed, name='dead')
+
+
 
 ]

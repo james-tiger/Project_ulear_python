@@ -21,5 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),  # Admin page URL
     path('profession/', views.profession_list, name='profession_list'),  # Main page for professions
     path('profession/about/', views.about, name='about'),  # About page
-    path('profession/statistics/', views.statistics, name='statistics')  # Statistics page
+    path('profession/statistics/', views.statistics, name='statistics'),  # Statistics page
+    path('dead/<int:profession_id>/', views.deed_to_deed, name='dead')
+
+
 ]

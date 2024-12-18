@@ -2,8 +2,9 @@ from django.db import models
 from django.utils import timezone
 
 class Skill(models.Model):
-    skill_name = models.CharField(max_length=200)
+    skill_name = models.CharField(max_length=200, unique=True)  # Ensure unique skill names
     count = models.IntegerField()
+
 
     def __str__(self):
         return self.skill_name

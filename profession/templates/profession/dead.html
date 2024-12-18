@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Deed to Deed{% endblock %}
+
+{% block content %}
+    <h2>Deed to Deed for {{ profession.name }}</h2>
+
+    <h3>Salary Dynamics by Year</h3>
+    <img src="data:image/png;base64,{{ salary_dynamics_chart }}" alt="Salary Dynamics Chart">
+
+    <h3>Vacancy Count by Year</h3>
+    <img src="data:image/png;base64,{{ vacancy_dynamics_chart }}" alt="Vacancy Count Chart">
+
+    <h3>Salary by Year</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Average Salary (RUB)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in salary_by_year_table %}
+                <tr>
+                    <td>{{ row.year }}</td>
+                    <td>{{ row.avg_salary|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Vacancy Count by Year</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Vacancy Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in vacancy_by_year_table %}
+                <tr>
+                    <td>{{ row.year }}</td>
+                    <td>{{ row.vacancy_count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
