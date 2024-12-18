@@ -1,0 +1,27 @@
+body {
+    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #4CAF50;
+}
+
+.list-group-item {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
+.list-group-item-heading {
+    color: #333;
+    font-weight: bold;
+}
+
+.list-group-item-text {
+    color: #555;
+}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}General Statistics{% endblock %}
+
+{% block content %}
+    <h2>General Statistics</h2>
+
+    <h3>Salary Dynamics by Year</h3>
+    <img src="data:image/png;base64,{{ salary_dynamics_chart }}" alt="Salary Dynamics Chart">
+
+    <h3>Vacancy Count by Year</h3>
+    <img src="data:image/png;base64,{{ vacancy_count_chart }}" alt="Vacancy Count Chart">
+
+    <h3>Salary by Cities</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>City</th>
+                <th>Average Salary (RUB)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for city, salaries in salary_by_city %}
+                <tr>
+                    <td>{{ city }}</td>
+                    <td>{{ salaries|average }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Top 20 Skills by Year</h3>
+    <ul>
+        {% for skill, count in top_skills %}
+            <li>{{ skill }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
