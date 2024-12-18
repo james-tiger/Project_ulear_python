@@ -6,9 +6,8 @@ import base64
 import requests
 from django.utils import timezone
 
-
 def profession_list(request):
-    professions = Profession.objects.all()  # Assuming you have a model called Profession
+    professions = Profession.objects.all()
     return render(request, 'profession/profession_list.html', {'professions': professions})
 
 def about(request):
@@ -17,28 +16,22 @@ def about(request):
 def base(request):
     return render(request, 'base.html')
 
-
-
-# Helper function to get exchange rate
 def get_exchange_rate(currency, date):
     url = f'https://api.exchangerate-api.com/v4/latest/{currency}'
     response = requests.get(url)
     data = response.json()
     if currency != 'RUB':
         return data['rates']['RUB']
-    return 1  # إذا كانت العملة هي الروبل، فلا نحتاج للتحويل
+    return 1
 
-# View to display statistics
 def statistics(request):
     vacancies = Vacancy.objects.all()
 
-    # Convert salaries to RUB
     for vacancy in vacancies:
-        if vacancy.salary <= 10000000:  # تجاهل الوظائف ذات الرواتب العالية
+        if vacancy.salary <= 10000000:
             exchange_rate = get_exchange_rate(vacancy.currency, vacancy.posted_date)
             vacancy.salary_in_rub = vacancy.salary * exchange_rate
 
-    # Salary dynamics by year
     salary_data = {}
     for vacancy in vacancies:
         year = vacancy.posted_date.year
@@ -58,7 +51,6 @@ def statistics(request):
     buffer.seek(0)
     img_str = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
-    # Vacancy count by year
     vacancies_by_year = {}
     for vacancy in vacancies:
         year = vacancy.posted_date.year
@@ -78,10 +70,9 @@ def statistics(request):
     buffer2.seek(0)
     img_str2 = base64.b64encode(buffer2.getvalue()).decode('utf-8')
 
-    # Salary by city
     salary_by_city = {}
     for vacancy in vacancies:
-        if vacancy.salary <= 10000000:  # تجاهل الوظائف ذات الرواتب العالية
+        if vacancy.salary <= 10000000:
             city = vacancy.city
             if city not in salary_by_city:
                 salary_by_city[city] = []
@@ -89,12 +80,10 @@ def statistics(request):
 
     sorted_salary_by_city = sorted(salary_by_city.items(), key=lambda x: sum(x[1]) / len(x[1]), reverse=True)
 
-    # Save salary data to the database
     for city, salaries in sorted_salary_by_city:
         average_salary = sum(salaries) / len(salaries)
         SalaryByCity.objects.update_or_create(city=city, defaults={'average_salary': average_salary})
 
-    # Most requested skills
     skill_counts = {}
     for vacancy in vacancies:
         skills = vacancy.skills.split(',')
@@ -105,7 +94,6 @@ def statistics(request):
 
     top_skills = sorted(skill_counts.items(), key=lambda x: x[1], reverse=True)[:20]
 
-    # Save skill data to the database
     for skill_name, count in top_skills:
         Skill.objects.update_or_create(skill_name=skill_name, defaults={'count': count})
 

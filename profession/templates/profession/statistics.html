@@ -23,7 +23,7 @@
             {% for city, salaries in salary_by_city %}
                 <tr>
                     <td>{{ city }}</td>
-                    <td>{{ salaries|average }}</td>
+                    <td>{{ salaries.0 }}</td>
                 </tr>
             {% endfor %}
         </tbody>

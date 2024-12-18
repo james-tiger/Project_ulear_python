@@ -84,6 +84,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database for session storage
+
 
 
 # Password validation

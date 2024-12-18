@@ -18,15 +18,20 @@ class Profession(models.Model):
         return self.name
 
 class Vacancy(models.Model):
-    title = models.CharField(max_length=200)
-    city = models.CharField(max_length=100, db_index=True)  # Adding index to city
-    salary = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)  # Adding index to salary
+    title = models.CharField(max_length=200, default="Default Title", blank=True, null=True)  # Allow blank and null
+    city = models.CharField(max_length=100, db_index=True)
+    salary = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)
     currency = models.CharField(max_length=10, choices=[('RUB', 'RUB'), ('USD', 'USD'), ('EUR', 'EUR')], default='RUB')
     posted_date = models.DateField(default=timezone.now)
-    skills = models.ManyToManyField(Skill, related_name='vacancies')  # Correct reference to Skill model
+    skills = models.ManyToManyField(Skill, related_name='vacancies')
 
     def __str__(self):
         return self.title
+
+    def get_skills(self, obj):
+        return ", ".join([skill.skill_name for skill in obj.skills.all()])
+    get_skills.short_description = 'Skills'
+
 
 class SalaryByCity(models.Model):
     city = models.CharField(max_length=100)
